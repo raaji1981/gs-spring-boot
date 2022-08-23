@@ -1,17 +1,5 @@
 # Maven package Java project Web App to Linux on Azure
-- task: Maven@3
-  inputs:
-    mavenPomFile: 'app/pom.xml'
-    publishJUnitResults: true
-    testResultsFiles: '**/surefire-reports/TEST-*.xml'
-    codeCoverageToolOption: 'Cobertura'
-    javaHomeOption: 'JDKVersion'
-    jdkVersionOption: '1.8'
-    mavenVersionOption: 'Default'
-    mavenAuthenticateFeed: true
-    effectivePomSkip: true
-    sonarQubeRunAnalysis: true
-    sqMavenPluginVersionChoice: 'latest'
+
 
 trigger:
 - master
@@ -80,3 +68,15 @@ stages:
               appType: webAppLinux
               appName: $(webAppName)
               package: '$(System.ArtifactsDirectory)/drop/**/target/*.?(war|jar)'
+          - task: Maven@3
+            inputs:
+                  mavenPomFile: 'app/pom.xml'
+                  publishJUnitResults: true
+                  testResultsFiles: '**/surefire-reports/TEST-*.xml'
+                  javaHomeOption: 'JDKVersion'
+                  jdkVersionOption: '1.8'
+                  mavenVersionOption: 'Default'
+                  mavenAuthenticateFeed: false
+                  effectivePomSkip: false
+                  sonarQubeRunAnalysis: true
+                  sqMavenPluginVersionChoice: 'latest'
